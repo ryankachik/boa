@@ -137,6 +137,39 @@ describe("BOA", function() {
 			expect(result.find("li:eq(2)").text()).toEqual("im yet another object in an array, my index is 2");
 		});
 		
+		it("can parse a foreach binding inside of a foreach binding", function() {
+			div = $("<div />").attr("data-bind", "foreach: objs");
+			var ul = $("<ul />").attr("data-bind", "foreach: childObjs").appendTo(div);
+			$("<li />").attr("data-bind", "text: message").appendTo(ul);
+			
+			var data = {
+				objs : [ 
+					{
+						childObjs : [
+							{message: "im an object in an array, my index is 0"},
+							{message: "im another object in an array, my index is 1"},
+							{message: "im yet another object in an array, my index is 2"}
+						]
+					},
+					{
+						childObjs : [
+							{message: "im in the second list index 0"},
+							{message: "im in the second list index 1"},
+							{message: "im in the second list index 2"}
+						]
+					}
+				]
+			};
+			
+			var result = boa.bind(div, data);
+			expect(result.find("ul").length).toEqual(2);
+			expect(result.find("li").length).toEqual(6);
+			expect(result.find("li:eq(0)").text()).toEqual("im an object in an array, my index is 0");
+			expect(result.find("li:eq(1)").text()).toEqual("im another object in an array, my index is 1");
+			expect(result.find("li:eq(2)").text()).toEqual("im yet another object in an array, my index is 2");
+			expect(result.find("li:eq(3)").text()).toEqual("im in the second list index 0");
+		});
+		
 	});
 });
 

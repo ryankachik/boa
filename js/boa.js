@@ -5,8 +5,6 @@
 		this.property = property;
 	}
 	
-	
-	
 	var utils = {
 		getBindingTypes:function(template) {
 			var attr = $(template).data("bind");
